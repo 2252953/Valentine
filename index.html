@@ -34,21 +34,6 @@
       .button:hover {
         background-color: #e45a7f;
       }
-      .yes-button {
-        font-size: 20px;
-        margin-right: 10px; /* Add a little space between Yes and No */
-      }
-      .no-button {
-        font-size: 20px;
-        background-color: #f15c80;
-        margin-top: 0; /* Remove the top margin */
-      }
-      .popup {
-        display: none;
-        font-size: 24px;
-        margin-top: 20px;
-        color: #f15c80;
-      }
       .media {
         margin-top: 20px;
         width: 100%;
@@ -56,48 +41,78 @@
         justify-content: center;
         align-items: center;
       }
-      img,
-      video {
+      img {
         max-width: 100%;
         height: auto;
         border-radius: 10px;
       }
-      .button-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .video-container {
+        display: none;
+        margin-top: 20px;
+      }
+      video {
+        max-width: 100%;
+        border-radius: 10px;
       }
     </style>
   </head>
   <body>
-    <!-- Media section for Image or Video -->
     <div class="media">
-      <!-- For image -->
       <img src="bear.jpg" alt="Valentine's Image" />
     </div>
 
-    <!-- Valentine prompt -->
-    <h1>Will you be my Valentine?</h1>
+    <h1 id="message">Will you be my Valentine?</h1>
 
-    <!-- Button container with flex to place them side by side -->
-    <div class="button-container">
+    <div class="button-container" id="buttons">
       <button class="button yes-button" id="yesButton" onclick="respondYes()">
         Yes
       </button>
-      <button class="button no-button" onclick="respondNo()">No</button>
+      <button class="button no-button" id="noButton" onclick="respondNo()">
+        No
+      </button>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+      <video id="valentineVideo" autoplay controls>
+        <source src="cat.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
 
     <script>
       let yesButton = document.getElementById("yesButton");
+      let noButton = document.getElementById("noButton");
+      let videoContainer = document.getElementById("videoContainer");
+      let video = document.getElementById("valentineVideo");
+      let message = document.getElementById("message");
+      let buttons = document.getElementById("buttons");
+
+      let noTexts = [
+        "Are you sure?",
+        "Think again!",
+        "Last chance!",
+        "Really? 🥺",
+        "Just say yes! 💕",
+      ];
+      let noIndex = 0;
 
       function respondYes() {
-        alert("Thanks! 💘");
+        message.textContent = "Yay! Happy Valentine's Day! ❤️";
+        buttons.style.display = "none";
+        videoContainer.style.display = "block";
+        video.play();
       }
 
       function respondNo() {
-        // Increase the size of the "Yes" button
         let currentSize = parseInt(window.getComputedStyle(yesButton).fontSize);
-        yesButton.style.fontSize = currentSize + 50 + "px";
+        yesButton.style.fontSize = currentSize + 20 + "px";
+
+        if (noIndex < noTexts.length) {
+          noButton.textContent = noTexts[noIndex];
+          noIndex++;
+        } else {
+          noButton.textContent = "You have to say yes! 😘";
+        }
       }
     </script>
   </body>
